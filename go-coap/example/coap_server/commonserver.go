@@ -155,6 +155,10 @@ func runServer() {
 			}*/
 			if m.Code == coap.GET {
 				go periodicTransmitter(l, a, m)
+			} else if m.Code == coap.POST {
+				pathResponseMap[m.PathString()] = string(m.Payload)
+				log.Printf("set path=%v, value=%v from %v", m.PathString(), string(m.Payload), a)
+				go periodicTransmitter(l, a, m)
 			}
 			return nil
 		})))
